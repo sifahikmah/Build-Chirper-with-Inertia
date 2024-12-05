@@ -21,6 +21,9 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "dayjs": "^1.11.13"
+        "dayjs": "^1.11.13",
+        "quill": "^2.0.3",
+        "react-quill": "^2.0.0",
+        "react-router-dom": "^7.0.2"
     }
 }
