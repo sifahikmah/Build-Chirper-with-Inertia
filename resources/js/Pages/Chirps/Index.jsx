@@ -4,6 +4,8 @@ import Chirp from '@/Components/Chirp';
 import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { useForm, Head } from '@inertiajs/react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Tambahkan CSS bawaan Quill
 
 export default function Index({ auth, chirps }) {
     const { data, setData, post, processing, reset, errors } = useForm({
@@ -15,13 +17,17 @@ export default function Index({ auth, chirps }) {
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        if (file && file.size > 2 * 1024 * 1024) {
+        if (file && file.size > 2 * 1024 * 1024) { // Validasi ukuran file (2MB)
             alert('File size should not exceed 2MB');
             return;
         }
 
-        setData('photo', file);
+        setData('photo', file); // Simpan file foto ke state
         setPhotoPreview(URL.createObjectURL(file));
+    };
+
+    const handleEditorChange = (content) => {
+        setData('message', content); // Simpan isi editor ke state
     };
 
     const submit = (e) => {
@@ -41,21 +47,19 @@ export default function Index({ auth, chirps }) {
     return (
         <AuthenticatedLayout auth={auth}>
             <Head title="Chirps" />
-
             <div className="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
                 <form onSubmit={submit}>
-                    {/* Container utama untuk textarea dan foto */}
+                    {/* Container utama untuk WYSIWYG editor dan foto */}
                     <div className="relative border border-gray-300 rounded-lg p-4 bg-white">
-                        {/* Textarea */}
-                        <textarea
-                        value={data.message}
-                        onChange={(e) => setData('message', e.target.value)}
-                        placeholder="What's on your mind?"
-                        className="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm p-3 mb-2"
-                    ></textarea>
-
-                        {/* Preview gambar di dalam kotak, sama dengan styling pasca-submit */}
-                        {/* Preview gambar di dalam kotak, dengan jarak lebih kecil dari textarea */}
+                        {/* WYSIWYG Editor */}
+                        <ReactQuill
+                            value={data.message}
+                            onChange={handleEditorChange}
+                            placeholder="What's on your mind?"
+                            theme="snow"
+                            className="mb-2"
+                        />
+                        {/* Preview gambar */}
                         {photoPreview && (
                             <div className="relative w-full h-64 overflow-hidden border border-gray-300 rounded-lg mt-2">
                                 <img
@@ -65,8 +69,6 @@ export default function Index({ auth, chirps }) {
                                 />
                             </div>
                         )}
-
-
 
                         {/* Tombol Upload Gambar */}
                         <label htmlFor="photo" className="mt-4 flex items-center justify-start cursor-pointer">

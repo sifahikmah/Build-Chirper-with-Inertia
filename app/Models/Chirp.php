@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Chirp extends Model
 {
-    // Mendefinisikan atribut mana yang dapat diisi secara massal (disini hanya kolom 'message')
         protected $fillable = [
         'message',
         'photo',

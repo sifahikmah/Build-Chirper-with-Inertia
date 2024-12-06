@@ -39,8 +39,8 @@ class ChirpController extends Controller
     {
         // Validasi input, termasuk foto (jika ada)
         $validated = $request->validate([
-            'message' => 'nullable|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',  // Validasi foto
+            'message' => 'nullable|string', // Mengizinkan konten HTML
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',  // Validasi foto (Max 2 mb)
         ]);
 
         // Menyimpan foto jika ada
@@ -83,7 +83,7 @@ class ChirpController extends Controller
         Gate::authorize('update', $chirp);
 
         $validated = $request->validate([
-            'message' => 'required|string|max:255',
+            'message' => 'required|string',
         ]);
 
         $chirp->update($validated);
