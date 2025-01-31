@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\Admin\UserManagementController;
+
 
 Route::post('/chirps', [ChirpController::class, 'store'])->name('chirps.store');
 
@@ -32,4 +34,9 @@ Route::resource('chirps', ChirpController::class)
     ->only(['index', 'store', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
 
+
+
 require __DIR__.'/auth.php';
+
+require __DIR__.'/admin-auth.php';
+
